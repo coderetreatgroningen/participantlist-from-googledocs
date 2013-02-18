@@ -5,6 +5,7 @@ require 'gravatar-ultimate'
 $username = ARGV[0]
 password = ARGV[1]
 $gravatar_password = password + '123'
+file_name = ARGV[2]
 
 
 name_column = 'B'.ord - 65 + 1
@@ -43,7 +44,6 @@ for row in 2..ws.num_rows
 end
 
 
-file_name = 'index.html'
 text = File.read(file_name)
 text.gsub! /(<!--HOOFDEN-->).*(<!--END HOOFDEN-->)/, '\1' + pictures + '\2'
 text.gsub! /(<!--NAMEN-->).*(<!--END NAMEN-->)/, '\1' + names.join(', ') + '\2'
