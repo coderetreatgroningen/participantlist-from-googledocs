@@ -42,7 +42,9 @@ for row in 2..ws.num_rows
   end
 end
 
-puts pictures
 
-puts names.join(', ')
-
+file_name = 'index.html'
+text = File.read(file_name)
+text.gsub! /(<!--HOOFDEN-->).*(<!--END HOOFDEN-->)/, '\1' + pictures + '\2'
+text.gsub! /(<!--NAMEN-->).*(<!--END NAMEN-->)/, '\1' + names.join(', ') + '\2'
+File.open(file_name, "w") { |file| file.puts text }
