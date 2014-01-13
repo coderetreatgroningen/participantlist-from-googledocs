@@ -24,7 +24,7 @@ session = GoogleDrive.login($username, password)
 
 # First worksheet of
 # https://docs.google.com/spreadsheet/ccc?key=pz7XtlQC-PYx-jrVMJErTcg
-ws = session.spreadsheet_by_key("0AsxYGKsq3C89dC1velY1SFpWbl9uRUZ6Q05jVjRJZEE").worksheets[0]
+ws = session.spreadsheet_by_key("0AsxYGKsq3C89dHlPa2JQX2VGU3hnLTNwSnQ0Q2szU3c").worksheets[0]
 
 pictures = ''
 names = []
