@@ -10,6 +10,7 @@ file_name = ARGV[2]
 
 name_column = 'B'.ord - 65 + 1
 email_column = 'H'.ord - 65 + 1
+avatar_column = 'J'.ord - 65 + 1
 
 
 def has_gravatar(email)
@@ -34,10 +35,13 @@ for row in 2..ws.num_rows
   encoded_name = name.gsub /[^a-zA-Z0-9' ]/, ''
 
   email = ws[row, email_column]
+  override_gravatar = ws[row, avatar_column]
 
   if has_gravatar(email)
   	gravatar = Gravatar.new(email).image_url(default: :monsterid, size: 150)
   	pictures << "<li><img src=\"#{gravatar}\" alt=\"#{encoded_name}\" title=\"#{encoded_name}\"></li>"
+  elsif override_gravatar and override_gravatar.size > 0
+  	pictures << "<li><img src=\"#{override_gravatar}\" alt=\"#{encoded_name}\" title=\"#{encoded_name}\"></li>"
   else
   	names << encoded_name
   end
@@ -46,5 +50,9 @@ end
 
 text = File.read(file_name)
 text.gsub! /(<!--HOOFDEN-->).*(<!--END HOOFDEN-->)/, '\1' + pictures + '\2'
-text.gsub! /(<!--NAMEN-->).*(<!--END NAMEN-->)/, '\1' + names.join(', ') + '\2'
+if names.any?
+  text.gsub! /(<!--NAMEN-->).*(<!--END NAMEN-->)/, '\1' + "en " + names.join(', ') + '\2'
+else
+  text.gsub! /(<!--NAMEN-->).*(<!--END NAMEN-->)/, '\1' + '\2'
+end
 File.open(file_name, "w") { |file| file.puts text }
